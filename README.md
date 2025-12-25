@@ -63,14 +63,23 @@ medium     0   281       0
 - Splitted the data for training and testing using train_test_split (80% train and 20% test)
 
 - Used Linear Regression
-RMSE - 2.871607587223007
+RMSE - 2.87
 
 - Used RandomForestRegressor
-RMSE - 2.0508190397741983
+RMSE - 2.05
 
 - Used GradientBoosting
-RMSE - 2.072387333618644
+RMSE - 2.07
 
 - In Linear Regression model , relatively high RMSE concludes that the relation between textual features and numeric difficulty is non-linear.
 - Random Forest significantly improves performance by modeling non-linear relationships.
 - Gradient Boosting provides same results as Random Forest but however Random Forest has more accurate results.
+
+## Model Used 
+
+- So as we can see Random Forest classifier and Random Forest Regressor had given the best results , so they are used in the project.
+
+## Web Interface and Backend Integration
+
+- Used HTML and CSS for Ui and Javascript for sending requests and updating results.
+- The backend serves as an interface API that loads ML models , processes input and performs prediction and returns the result in JSON format , the technologies used in backend were Flask (python framework) , Sckit-learn (for ML models) , joblib (for loading models) and numpy and scipy (for handling features).

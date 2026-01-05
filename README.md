@@ -1,85 +1,177 @@
-# AutoJudge 
+# AutoJudge – Programming Problem Difficulty Predictor
 
-AutoJudge predicts the difficulty of programming problems (basically DSA/CP problems) using historical data.The difficulty level is classified into three categories (easy/medium/hard) and a problem score (on the scale of 1-10) is given to the problem.
+## Project Overview
+AutoJudge is a machine learning–based system that predicts the difficulty of programming problems (primarily DSA / Competitive Programming problems) using their textual descriptions. The system classifies problems into three categories — Easy, Medium, and Hard — and also predicts a numeric difficulty score on a scale of 1 to 10.
 
-## Dataset
+The project implements a complete end-to-end pipeline, including data preprocessing, feature extraction, supervised learning for classification and regression, and deployment through a web interface using Flask.
 
-Source : Provided dataset (originally in .jsonl format and further converted to .csv)
-Total samples : 4112
-Fields of the dataset are :
-- Title
-- Description
-- input_description 
-- output_description
-- sample_io
-- problem_class 
-- problem_score
-- url
+---
 
-## Text Preprocessing
+## Dataset Used
+- Source: Provided dataset  
+- Original format: `.jsonl`  
+- Converted format: `.csv`  
+- Total samples: 4112 programming problems  
 
-Combined the first 5 fields of dataset into single text field , handled missing values by replacing them with empty strings
+### Dataset Fields
+- Title  
+- Description  
+- input_description  
+- output_description  
+- sample_io  
+- problem_class (Easy / Medium / Hard)  
+- problem_score (numeric difficulty)  
+- url  
 
-## Feature Extraction
+---
 
-- Calculated the frequency of keywords(like dp,greedy,dfs etc) occuring in combined text of a problem
-- Converted text features to numeric using TFIDF vectorization
-- Added text length as a feature
+## Approach and Models Used
 
-## Classification
+### Text Preprocessing
+- Combined the first five textual fields (title, description, input description, output description, sample I/O) into a single text field  
+- Handled missing values by replacing them with empty strings  
 
-- Splitted the data for training and testing using train_test_split (80% train and 20% test)
+---
 
-- Used Logistic Regression
-Accuracy - 48.60267314702308 %
-Confusion Matrix -
-        easy  hard  medium
-easy      91    26      36
-hard      66   200     123
-medium    71   101     109
+### Feature Extraction
+- Calculated the frequency of commonly used algorithmic keywords such as `dp`, `greedy`, `dfs`, `bfs`, `graph`, etc.  
+- Converted textual data into numerical features using **TF-IDF vectorization**  
+- Added text length as an additional numeric feature  
 
-- Used Random Forest Trees
-Accuracy - 54.79951397326853 %
-Confusion Matrix -
-        easy  hard  medium
-easy      55    77      21
-hard       8   363      18
-medium    23   225      33
+---
 
-- Used Support Vector Machines
-Accuracy - 47.38760631834751 %
-Confusion Matrix -
-        easy  hard  medium
-easy       1   152       0
-hard       0   389       0
-medium     0   281       0
+### Classification Models
+The dataset was split into training and testing sets using an 80–20 split.
 
-- Logistic Regression predicts all types of classes and is mainly confused between easy-medium and medium-hard.
-- Random Forest has the best accuracy among all the tested models and problems are majorly classified as hard.
-- Support Vector Machines collapsed as it is majorly predicting only one category(hard) which tells us that it fails to predict on this dataset.
+- **Logistic Regression**  
+  - Accuracy: 48.60%  
+  - Confusion Matrix:
+    ```
+            easy  hard  medium
+    easy      91    26      36
+    hard      66   200     123
+    medium    71   101     109
+    ```
 
-## Regression
+- **Random Forest Classifier**  
+  - Accuracy: 53.80%  
+  - Confusion Matrix:
+    ```
+            easy  hard  medium
+    easy      55    77      21
+    hard       8   363      18
+    medium    23   225      33
+    ```
 
-- Splitted the data for training and testing using train_test_split (80% train and 20% test)
+- **Support Vector Machine (SVM)**  
+  - Accuracy: 47.39%  
+  - Confusion Matrix:
+    ```
+            easy  hard  medium
+    easy       1   152       0
+    hard       0   389       0
+    medium     0   281       0
+    ```
 
-- Used Linear Regression
-RMSE - 2.87
+#### Observations
+- Logistic Regression predicts all classes but is mainly confused between Easy–Medium and Medium–Hard.  
+- Random Forest achieved the best classification accuracy among all tested models, though it tends to classify a large number of problems as Hard.  
+- SVM collapsed to predicting a single class (Hard), indicating poor generalization on this dataset.  
 
-- Used RandomForestRegressor
-RMSE - 2.05
+---
 
-- Used GradientBoosting
-RMSE - 2.07
+### Regression Models
+The same 80–20 train–test split was used for regression.
 
-- In Linear Regression model , relatively high RMSE concludes that the relation between textual features and numeric difficulty is non-linear.
-- Random Forest significantly improves performance by modeling non-linear relationships.
-- Gradient Boosting provides same results as Random Forest but however Random Forest has more accurate results.
+- **Linear Regression**  
+  - RMSE: 2.87  
 
-## Model Used 
+- **Random Forest Regressor**  
+  - RMSE: 2.05  
 
-- So as we can see Random Forest classifier and Random Forest Regressor had given the best results , so they are used in the project.
+- **Gradient Boosting Regressor**  
+  - RMSE: 2.07  
 
-## Web Interface and Backend Integration
+#### Observations
+- The relatively high RMSE of Linear Regression indicates a non-linear relationship between textual features and numeric difficulty scores.  
+- Random Forest significantly improved performance by modeling non-linear relationships.  
+- Gradient Boosting produced similar results, but Random Forest performed slightly better overall.  
 
-- Used HTML and CSS for Ui and Javascript for sending requests and updating results.
-- The backend serves as an interface API that loads ML models , processes input and performs prediction and returns the result in JSON format , the technologies used in backend were Flask (python framework) , Sckit-learn (for ML models) , joblib (for loading models) and numpy and scipy (for handling features).
+---
+
+## Final Models Used
+Based on evaluation results:
+- **Random Forest Classifier** was used for difficulty classification  
+- **Random Forest Regressor** was used for numeric difficulty prediction  
+
+---
+
+## Evaluation Metrics
+- **Classification:** Accuracy, Confusion Matrix  
+- **Regression:** Root Mean Squared Error (RMSE)  
+
+Best results achieved:
+- Classification Accuracy: ~53.8%  
+- Regression RMSE: ~2.05  
+
+---
+
+## Web Interface Explanation
+
+### Frontend
+- Built using **HTML and CSS** for the user interface  
+- **JavaScript** is used to send requests and dynamically update prediction results  
+- Users can input:
+  - Problem description
+  - Input format
+  - Output format  
+
+---
+
+### Backend
+- Implemented using **Flask**  
+- Loads trained machine learning models  
+- Processes user input and performs inference  
+- Returns predictions in JSON format  
+
+### Backend Technologies
+- Flask (Python web framework)  
+- scikit-learn (machine learning models)  
+- joblib (model loading)  
+- NumPy and SciPy (feature handling)  
+
+---
+
+## Steps to Run the Project Locally
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/VEDxyz7/AutoJudge.git
+cd AutoJudge
+```
+
+### 2. Create and activate a virtual environment
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the web application
+```bash
+cd app
+python app.py
+```
+
+### 5. Open the application
+```
+http://127.0.0.1:5000
+```
+---
+## Author Details
+- Name : Ved Parikh
+- Enrollment No : 24112080

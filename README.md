@@ -54,7 +54,7 @@ The dataset was split into training and testing sets using an 80–20 split.
     ```
 
 - **Random Forest Classifier**  
-  - Accuracy: 53.80%  
+  - Accuracy: 54.19%  
   - Confusion Matrix:
     ```
             easy  hard  medium
@@ -111,7 +111,7 @@ Based on evaluation results:
 - **Regression:** Root Mean Squared Error (RMSE)  
 
 Best results achieved:
-- Classification Accuracy: ~53.8%  
+- Classification Accuracy: ~54.19%  
 - Regression RMSE: ~2.05  
 
 ---

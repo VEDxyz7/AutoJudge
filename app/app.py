@@ -5,10 +5,9 @@ from scipy.sparse import hstack
 
 app = Flask(__name__)
 
-# Load saved models
 tfidf = joblib.load("../models/tfidf_vectorizer.pkl")
 classifier = joblib.load("../models/classifier.pkl")
-regressor = joblib.load("../models/regressor.pkl")  # Phase 5 (later)
+regressor = joblib.load("../models/regressor.pkl")  
 
 keywords = ["dp", "graph", "tree", "recursion", "greedy", "binary", "dfs", "bfs"]
 
